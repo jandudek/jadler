@@ -47,7 +47,7 @@ import static org.hamcrest.Matchers.allOf;
  * 
  * <p>This class is stateful and thread-safe.</p>
  */
-public class JadlerMocker implements StubHttpServerManager, Stubber, RequestManager, Mocker {
+public class JadlerMocker implements StubHttpServerManager, Stubber, RequestManager, Mocker, ConfigurableMocker {
 
     private final StubHttpServer server;
     private final StubbingFactory stubbingFactory;
@@ -173,41 +173,72 @@ public class JadlerMocker implements StubHttpServerManager, Stubber, RequestMana
     
     
     /**
-     * Adds a default header to be added to every stub http response.
-     * @param name header name (cannot be empty)
-     * @param value header value (cannot be <tt>null</tt>)
+     * {@inheritDoc}
      */
-    public void addDefaultHeader(final String name, final String value) {
+    @Override
+    public ConfigurableMocker defaultHeader(final String name, final String value) {
         Validate.notEmpty(name, "header name cannot be empty");
         Validate.notNull(value, "header value cannot be null, use an empty string instead");
+        
         this.checkConfigurable();
         this.defaultHeaders.put(name, value);
+        return this;
     }
     
 
+    @Deprecated
+    public void addDefaultHeader(final String name, final String value) {
+        this.defaultHeader(name, value);
+    }
+    
+    
     /**
-     * Defines a default status to be returned in every stub http response (if not redefined in the
-     * particular stub rule)
-     * @param defaultStatus status to be returned in every stub http response. Must be at least 0.
+     * {@inheritDoc}
      */
-    public void setDefaultStatus(final int defaultStatus) {
+    @Override
+    public ConfigurableMocker defaultStatus(final int defaultStatus) {
         Validate.isTrue(defaultStatus >= 0, "defaultStatus mustn't be negative");
+        
         this.checkConfigurable();
         this.defaultStatus = defaultStatus;
+        return this;
     }
     
+    
+    @Deprecated
+    public void setDefaultStatus(final int defaultStatus) {
+        this.defaultStatus(defaultStatus);
+    }
+
     
     /**
-     * Defines default charset of every stub http response (if not redefined in the particular stub)
-     * @param defaultEncoding default encoding of every stub http response
+     * {@inheritDoc}
      */
-    public void setDefaultEncoding(final Charset defaultEncoding) {
+    @Override
+    public ConfigurableMocker defaultEncoding(final Charset defaultEncoding) {
         Validate.notNull(defaultEncoding, "defaultEncoding cannot be null");
+        
         this.checkConfigurable();
         this.defaultEncoding = defaultEncoding;
+        return this;
+    }
+    
+    
+    @Deprecated
+    public void setDefaultEncoding(final Charset defaultEncoding) {
+        this.defaultEncoding(defaultEncoding);
     }
 
-
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ConfigurableMocker defaultContentType(final String defaultContentType) {
+        return defaultHeader("Content-Type", defaultContentType);
+    }
+    
+    
     /**
      * {@inheritDoc}
      */
@@ -370,26 +401,19 @@ public class JadlerMocker implements StubHttpServerManager, Stubber, RequestMana
     
     
     /**
-     * <p>By default Jadler records all incoming requests (including their bodies) so it can provide mocking
-     * (verification) features defined in {@link net.jadler.mocking.Mocker}.</p>
-     * 
-     * <p>In some very specific corner cases this implementation of mocking can cause troubles. For example imagine
-     * a long running performance test using Jadler for stubbing some remote http service. Since such a test can issue
-     * thousands or even millions of requests the memory consumption probably would affect the test results (either
-     * by a performance slowdown or even crashes). In this specific scenarios you should consider disabling
-     * the incoming requests recording using this method.</p>
-     * 
-     * <p>When disabled calling {@link net.jadler.mocking.Mocker#verifyThatRequest()} will result in
-     * {@link java.lang.IllegalStateException}</p>
-     * 
-     * <p>Please note you should ignore this option almost every time you use Jadler unless you are really
-     * convinced about it. Because premature optimization is the root of all evil, you know.</p>
-     * 
-     * @param recordRequests {@code true} for enabling http requests recording, {@code false} for disabling it
+     * {@inheritDoc} 
      */
-    public void setRecordRequests(final boolean recordRequests) {
+    @Override
+    public ConfigurableMocker recordRequests(final boolean recordRequests) {
         this.checkConfigurable();
         this.recordRequests = recordRequests;
+        return this;
+    }
+    
+    
+    @Deprecated
+    public void setRecordRequests(final boolean recordRequests) {
+        this.recordRequests(recordRequests);
     }
     
     

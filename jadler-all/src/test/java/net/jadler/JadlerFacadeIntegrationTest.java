@@ -138,12 +138,13 @@ public class JadlerFacadeIntegrationTest {
      */
     @Test
     public void additionalConfiguration() throws IOException {
-        initJadler()
-                .that()
-                .respondsWithDefaultStatus(200)
-                .respondsWithDefaultContentType("text/plain")
-                .respondsWithDefaultEncoding(Charset.forName("ISO-8859-1"))
-                .respondsWithDefaultHeader("default_header", "value");
+        initJadler();
+        
+        mocker()
+                .defaultStatus(200)
+                .defaultContentType("text/plain")
+                .defaultEncoding(Charset.forName("ISO-8859-1"))
+                .defaultHeader("default_header", "value");
         
         try {
             onRequest().respond().withStatus(EXPECTED_STATUS);
@@ -160,7 +161,8 @@ public class JadlerFacadeIntegrationTest {
      */
     @Test(expected=IllegalStateException.class)
     public void additionalConfiguration_skipRequestRecording() throws IOException {
-        initJadler().that().skipsRequestsRecording();
+        initJadler();
+        mocker().recordRequests(false);
         
         try {
             verifyThatRequest();

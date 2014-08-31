@@ -186,14 +186,14 @@ public class JadlerMockerTest {
     
     @Test(expected=IllegalArgumentException.class)
     public void addDefaultHeaderWrongParam1() {
-        new JadlerMocker(mock(StubHttpServer.class)).addDefaultHeader(null, "abcd");
+        new JadlerMocker(mock(StubHttpServer.class)).defaultHeader(null, "abcd");
         fail("default header name cannot be null");
     }
     
     
     @Test(expected=IllegalArgumentException.class)
     public void addDefaultHeaderWrongParam2() {
-        new JadlerMocker(mock(StubHttpServer.class)).addDefaultHeader("abcd", null);
+        new JadlerMocker(mock(StubHttpServer.class)).defaultHeader("abcd", null);
         fail("default header value cannot be null");
     }
     
@@ -205,7 +205,7 @@ public class JadlerMockerTest {
           //calling provideStubResponseFor finishes the configuration phase, a default header cannot be added anymore
         mocker.provideStubResponseFor(prepareEmptyMockRequest());
         
-        mocker.addDefaultHeader("abcd", "efgh");
+        mocker.defaultHeader("abcd", "efgh");
         fail("default header cannot be added anymore");
     }
     
@@ -213,19 +213,19 @@ public class JadlerMockerTest {
     @Test
     public void addDefaultHeader1() {
           //empty header value is valid
-        new JadlerMocker(mock(StubHttpServer.class)).addDefaultHeader("abcd", "");
+        new JadlerMocker(mock(StubHttpServer.class)).defaultHeader("abcd", "");
     }
     
     
     @Test
     public void addDefaultHeader2() {
-        new JadlerMocker(mock(StubHttpServer.class)).addDefaultHeader("abcd", "efgh");
+        new JadlerMocker(mock(StubHttpServer.class)).defaultHeader("abcd", "efgh");
     }
 
     
     @Test(expected=IllegalArgumentException.class)
     public void setDefaultStatusWrongParam() {
-        new JadlerMocker(mock(StubHttpServer.class)).setDefaultStatus(-1);
+        new JadlerMocker(mock(StubHttpServer.class)).defaultStatus(-1);
         fail("defaultStatus must be at least 0");
     }
     
@@ -234,7 +234,7 @@ public class JadlerMockerTest {
     public void setDefaultStatusWrongState() {
         final JadlerMocker mocker = new JadlerMocker(mock(StubHttpServer.class));
         mocker.provideStubResponseFor(prepareEmptyMockRequest());
-        mocker.setDefaultStatus(200);
+        mocker.defaultStatus(200);
         fail("default status cannot be set anymore");
     }
     
@@ -242,13 +242,13 @@ public class JadlerMockerTest {
     @Test
     public void setDefaultStatus() {
         final JadlerMocker mocker = new JadlerMocker(mock(StubHttpServer.class));
-        mocker.setDefaultStatus(200);
+        mocker.defaultStatus(200);
     }
     
     
     @Test(expected=IllegalArgumentException.class)
     public void setDefaultEncodingWrongParam() {
-        new JadlerMocker(mock(StubHttpServer.class)).setDefaultEncoding(null);
+        new JadlerMocker(mock(StubHttpServer.class)).defaultEncoding(null);
         fail("defaultEncoding mustn't be null");
     }
     
@@ -257,7 +257,7 @@ public class JadlerMockerTest {
     public void setDefaultEncodingWrongState() {
         final JadlerMocker mocker = new JadlerMocker(mock(StubHttpServer.class));
         mocker.provideStubResponseFor(prepareEmptyMockRequest());
-        mocker.setDefaultEncoding(DEFAULT_ENCODING);
+        mocker.defaultEncoding(DEFAULT_ENCODING);
         fail("default encoding cannot be set anymore");
     }
     
@@ -265,7 +265,7 @@ public class JadlerMockerTest {
     @Test
     public void setDefaultEncoding() {
         final JadlerMocker mocker = new JadlerMocker(mock(StubHttpServer.class));
-        mocker.setDefaultEncoding(DEFAULT_ENCODING);
+        mocker.defaultEncoding(DEFAULT_ENCODING);
     } 
     
     
@@ -303,10 +303,10 @@ public class JadlerMockerTest {
         
         final JadlerMocker mocker = new JadlerMocker(server, sf);
         
-        mocker.setDefaultStatus(DEFAULT_STATUS);
-        mocker.addDefaultHeader(HEADER_NAME1, HEADER_VALUE1);
-        mocker.addDefaultHeader(HEADER_NAME2, HEADER_VALUE2);
-        mocker.setDefaultEncoding(DEFAULT_ENCODING);
+        mocker.defaultStatus(DEFAULT_STATUS);
+        mocker.defaultHeader(HEADER_NAME1, HEADER_VALUE1);
+        mocker.defaultHeader(HEADER_NAME2, HEADER_VALUE2);
+        mocker.defaultEncoding(DEFAULT_ENCODING);
 
         mocker.onRequest();
         
@@ -513,7 +513,7 @@ public class JadlerMockerTest {
     @Test(expected = IllegalStateException.class)
     public void verifyThatRequest_noRequestRecording() {
         final JadlerMocker mocker = new JadlerMocker(mock(StubHttpServer.class));
-        mocker.setRecordRequests(false);
+        mocker.recordRequests(false);
         mocker.verifyThatRequest();
     }
     
@@ -536,7 +536,7 @@ public class JadlerMockerTest {
     @SuppressWarnings("unchecked")
     public void numberOfRequestsMatching_noRequestRecording() {
         final JadlerMocker mocker = new JadlerMocker(mock(StubHttpServer.class));
-        mocker.setRecordRequests(false);
+        mocker.recordRequests(false);
         mocker.numberOfRequestsMatching(Collections.<Matcher<? super Request>>singletonList(mock(Matcher.class)));
     }
     

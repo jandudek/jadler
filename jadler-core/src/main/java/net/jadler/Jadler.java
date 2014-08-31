@@ -576,9 +576,9 @@ public class Jadler {
     
     
     /**
-     * Stops the underlying {@link StubHttpServer} and closes Jadler.
-     * <br /><br />
-     * This should be preferably called in the {@code tearDown} method of a test suite.
+     * <p>Stops the underlying {@link StubHttpServer} and closes Jadler.</p>
+     * 
+     * <p>This should be preferably called in the {@code tearDown} method of a test suite.</p>
      */
     public static void closeJadler() {
         final StubHttpServerManager serverManager = jadlerMockerContainer.get();
@@ -588,7 +588,11 @@ public class Jadler {
         
         jadlerMockerContainer.set(null);
     }
-
+    
+    
+    public static ConfigurableMocker mocker() {
+        return mockerInternal();
+    }
 
     /**
      * Use this method to retrieve the port the underlying http stub server is listening on
@@ -596,8 +600,7 @@ public class Jadler {
      * @throws IllegalStateException if Jadler was not initialized yet
      */
     public static int port() {
-        checkInitialized();
-        return jadlerMockerContainer.get().getStubHttpServerPort();
+        return mockerInternal().getStubHttpServerPort();
     }
     
     
@@ -606,8 +609,7 @@ public class Jadler {
      * @return stubbing object for ongoing stubbing 
      */
     public static RequestStubbing onRequest() {
-        checkInitialized();
-        return jadlerMockerContainer.get().onRequest();
+        return mockerInternal().onRequest();
     }
     
     
@@ -616,15 +618,15 @@ public class Jadler {
      * @return verifying object for ongoing verifying 
      */
     public static Verifying verifyThatRequest() {
-        checkInitialized();
-        return jadlerMockerContainer.get().verifyThatRequest();
+        return mockerInternal().verifyThatRequest();
     }
     
-
-    private static void checkInitialized() {
+    
+    private static JadlerMocker mockerInternal() {
         if (jadlerMockerContainer.get() == null) {
             throw new IllegalStateException("Jadler has not been initialized yet.");
         }
+        return jadlerMockerContainer.get();
     }
     
     
@@ -675,6 +677,7 @@ public class Jadler {
     /**
      * This class serves as a DSL support for additional Jadler configuration.
      */
+    @Deprecated
     public static class OngoingConfiguration {
         private static final OngoingConfiguration INSTANCE = new OngoingConfiguration();
         
@@ -688,7 +691,10 @@ public class Jadler {
          * specific http status defined. (see {@link ResponseStubbing#withStatus(int)})
          * @param defaultStatus default http response status
          * @return this ongoing configuration
+         * 
+         * @deprecated 
          */
+        @Deprecated
         public OngoingConfiguration respondsWithDefaultStatus(final int defaultStatus) {
             jadlerMockerContainer.get().setDefaultStatus(defaultStatus);
             return this;
@@ -702,6 +708,7 @@ public class Jadler {
          * @param value header value
          * @return this ongoing configuration
          */
+        @Deprecated
         public OngoingConfiguration respondsWithDefaultHeader(final String name, final String value) {
             jadlerMockerContainer.get().addDefaultHeader(name, value);
             return this;
@@ -714,6 +721,7 @@ public class Jadler {
          * @param defaultEncoding default stub response encoding
          * @return this ongoing configuration
          */
+        @Deprecated
         public OngoingConfiguration respondsWithDefaultEncoding(final Charset defaultEncoding) {
             jadlerMockerContainer.get().setDefaultEncoding(defaultEncoding);
             return this;
@@ -732,6 +740,7 @@ public class Jadler {
          * @see JadlerMocker#setRecordRequests(boolean)
          * @return this ongoing configuration 
          */
+        @Deprecated
         public OngoingConfiguration skipsRequestsRecording() {
             jadlerMockerContainer.get().setRecordRequests(false);
             return this;
@@ -744,6 +753,7 @@ public class Jadler {
          * @param defaultContentType default {@code Content-Type} header of every http stub response
          * @return this ongoing configuration
          */
+        @Deprecated
         public OngoingConfiguration respondsWithDefaultContentType(final String defaultContentType) {
             return this.respondsWithDefaultHeader("Content-Type", defaultContentType);
         }
@@ -753,6 +763,7 @@ public class Jadler {
     /**
      * This class serves as a DSL support for initialization of an additional Jadler configuration.
      */
+    @Deprecated
     public static class AdditionalConfiguration {
         private static final AdditionalConfiguration INSTANCE = new AdditionalConfiguration();
         
@@ -760,6 +771,7 @@ public class Jadler {
             //private constructor, instances of this class should never be created directly
         }
         
+        @Deprecated
         public OngoingConfiguration that() {
             return OngoingConfiguration.INSTANCE;
         }

@@ -30,6 +30,7 @@ import static net.jadler.Jadler.port;
 import static net.jadler.Jadler.initJadler;
 import static net.jadler.Jadler.onRequest;
 import static net.jadler.Jadler.closeJadler;
+import static net.jadler.Jadler.mocker;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
@@ -78,12 +79,13 @@ public class JadlerStubbingIntegrationTest {
     @Before
     public void setUp() {
         
-        initJadler().that()
-                .respondsWithDefaultStatus(DEFAULT_STATUS)
-                .respondsWithDefaultHeader(DEFAULT_HEADER1_NAME, DEFAULT_HEADER1_VALUE1)
-                .respondsWithDefaultHeader(DEFAULT_HEADER1_NAME, DEFAULT_HEADER1_VALUE2)
-                .respondsWithDefaultEncoding(UTF_8_CHARSET)
-                .respondsWithDefaultContentType(UTF_8_TYPE);
+        initJadler();
+        mocker()
+                .defaultStatus(DEFAULT_STATUS)
+                .defaultHeader(DEFAULT_HEADER1_NAME, DEFAULT_HEADER1_VALUE1)
+                .defaultHeader(DEFAULT_HEADER1_NAME, DEFAULT_HEADER1_VALUE2)
+                .defaultEncoding(UTF_8_CHARSET)
+                .defaultContentType(UTF_8_TYPE);
         
         this.client = new HttpClient();
     }
