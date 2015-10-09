@@ -8,10 +8,9 @@ This program is made available under the terms of the MIT License.
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.jadler</groupId>
-    <artifactId>jadler-all</artifactId>
+    <artifactId>jadler-grizzly</artifactId>
     <name>${project.artifactId}</name>
-    <description>This module contains all jadler sub-modules. By including jadler-all to a project a complete Jadler
-    library will be included automatically.</description>
+    <description>An implementation of the stub http server component using a Grizzly http server.</description>
     <url>http://jadler.net</url>
     <packaging>jar</packaging>
     
@@ -43,41 +42,46 @@ This program is made available under the terms of the MIT License.
  
 
     <dependencies>
-        <!-- JADLER dependencies -->
         <dependency>
             <groupId>net.jadler</groupId>
             <artifactId>jadler-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>net.jadler</groupId>
-            <artifactId>jadler-grizzly</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.jadler</groupId>
-            <artifactId>jadler-junit</artifactId>
+            <groupId>org.glassfish.grizzly</groupId>
+            <artifactId>grizzly-http-server</artifactId>
+            <version>2.3.22</version>
         </dependency>
         
-        <!-- TEST -->
-        <dependency> 
+        <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
-        <dependency> 
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
         </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
         <dependency>
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
         </dependency>
         <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <scope>test</scope>
+            <!-- spring-test http servlet request mock doesn't work without spring-core even though
+                 it doesn't state it as its dependency. Dislike. -->
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
@@ -89,9 +93,6 @@ This program is made available under the terms of the MIT License.
             <artifactId>hamcrest-library</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-        </dependency>
     </dependencies>
+    
 </project>

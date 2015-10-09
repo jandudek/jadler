@@ -9,7 +9,7 @@ import java.nio.charset.Charset;
 import org.junit.Test;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
-import net.jadler.stubbing.server.jetty.JettyStubHttpServer;
+import net.jadler.stubbing.server.grizzly.GrizzlyStubHttpServer;
 import org.springframework.util.SocketUtils;
 
 import static net.jadler.Jadler.*;
@@ -121,7 +121,7 @@ public class JadlerFacadeIntegrationTest {
      */
     @Test
     public void serverConfiguration() throws IOException {
-        initJadlerUsing(new JettyStubHttpServer());
+        initJadlerUsing(new GrizzlyStubHttpServer());
         
         try {
             onRequest().respond().withStatus(EXPECTED_STATUS);

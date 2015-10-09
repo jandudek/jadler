@@ -67,9 +67,9 @@ public class JadlerStubbingIntegrationTest {
     
     private static final byte[] BINARY_BODY = {1, 2, 3};
     
-    private static final String UTF_8_TYPE = "text/html; charset=UTF-8";
+    private static final String UTF_8_TYPE = "text/html;charset=UTF-8";
     private static final Charset UTF_8_CHARSET = Charset.forName("UTF-8");
-    private static final String ISO_8859_2_TYPE = "text/html; charset=ISO-8859-2";
+    private static final String ISO_8859_2_TYPE = "text/html;charset=ISO-8859-2";
     private static final Charset ISO_8859_2_CHARSET = Charset.forName("ISO-8859-2");
     
     
@@ -705,7 +705,7 @@ public class JadlerStubbingIntegrationTest {
     
     
     /*
-     * Tests that 500 status and an empty body is returned when no stub rule matches.
+     * Tests that 404 status and an empty body is returned when no stub rule matches.
      */
     @Test
     public void noRuleApplicable() throws IOException {
@@ -714,7 +714,7 @@ public class JadlerStubbingIntegrationTest {
         final int status = client.executeMethod(method);
         
         assertThat(status, is(404));
-        assertThat(method.getResponseHeader("Content-Type").getValue(), is("text/plain; charset=utf-8"));
+        assertThat(method.getResponseHeader("Content-Type").getValue(), is("text/plain;charset=utf-8"));
         assertThat(method.getResponseBodyAsString(), is("No stub response found for the incoming request"));
     }
     

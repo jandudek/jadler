@@ -598,7 +598,7 @@ public class Jadler {
       //test, see http://junit.org/apidocs/org/junit/Test.html for details), the thread local container
       //is inheritable so the content is copied automatically to the child thread
     private static ThreadLocal<JadlerMocker> jadlerMockerContainer = new InheritableThreadLocal<JadlerMocker>();
-    private static String JETTY_SERVER_CLASS = "net.jadler.stubbing.server.jetty.JettyStubHttpServer";
+    private static String JETTY_SERVER_CLASS = "net.jadler.stubbing.server.grizzly.GrizzlyStubHttpServer";
 
     private Jadler() {
         //gtfo

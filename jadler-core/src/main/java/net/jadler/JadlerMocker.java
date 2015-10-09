@@ -68,7 +68,7 @@ public class JadlerMocker implements StubHttpServerManager, Stubber, RequestMana
         NO_RULE_FOUND_RESPONSE = StubResponse.builder()
                 .status(404)
                 .body("No stub response found for the incoming request", Charset.forName("UTF-8"))
-                .header("Content-Type", "text/plain; charset=utf-8")
+                .header("Content-Type", "text/plain;charset=utf-8")
                 .build();
     }
     

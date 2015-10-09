@@ -436,7 +436,7 @@ public class JadlerMockerTest {
         assertThat(res.getBody(), is("No stub response found for the incoming request".getBytes()));
         assertThat(res.getEncoding(), is(Charset.forName("UTF-8")));
         
-        final KeyValues expectedHeaders = new KeyValues().add("Content-Type", "text/plain; charset=utf-8");
+        final KeyValues expectedHeaders = new KeyValues().add("Content-Type", "text/plain;charset=utf-8");
         assertThat(res.getHeaders(), is(expectedHeaders));
     }
     

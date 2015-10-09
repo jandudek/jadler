@@ -6,7 +6,7 @@ package net.jadler;
 
 import net.jadler.mocking.Verifying;
 import net.jadler.stubbing.RequestStubbing;
-import net.jadler.stubbing.server.jetty.JettyStubHttpServer;
+import net.jadler.stubbing.server.grizzly.GrizzlyStubHttpServer;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.junit.After;
@@ -22,7 +22,7 @@ import static org.junit.Assert.assertThat;
  * Tests that its possible to reset JadlerMocker.
  */
 public class JadlerResetIntegrationTest {
-    private static final JadlerMocker mocker = new JadlerMocker(new JettyStubHttpServer());
+    private static final JadlerMocker mocker = new JadlerMocker(new GrizzlyStubHttpServer());
 
     @BeforeClass
     public static void start() {
